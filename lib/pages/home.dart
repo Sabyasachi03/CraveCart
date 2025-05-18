@@ -18,47 +18,71 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: Container(
         margin: EdgeInsets.only(top: 50.0, left: 20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Hello Sabyasachi,",
-                  style: AppWidget.boldTextFieldStyle(),
-                ),
-                Container(
-                  margin: EdgeInsets.only(right: 20),
-                  padding: EdgeInsets.all(3),
-                  decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(8)),
-                  child: Icon(Icons.shopping_cart, color: Colors.white,),
-                )
-              ],
-            ),
-            SizedBox(height: 40.0,),
-            Text(
-              "Delicious Food",
-              style: AppWidget.headlineTextFieldStyle(),
-            ),
-            Text(
-              "Discover and Get Great Food",
-              style: AppWidget.lightTextFieldStyle(),
-            ),
-            SizedBox(height: 20.0,),
-            Container(
-              margin: EdgeInsets.only(right: 20),
-                child: showItem()),
-            SizedBox(height: 20.0,),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  GestureDetector(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>Details()));
-                    },
-                    child: Container(
+                  Text(
+                    "Hello Sabyasachi,",
+                    style: AppWidget.boldTextFieldStyle(),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(right: 20),
+                    padding: EdgeInsets.all(3),
+                    decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(8)),
+                    child: Icon(Icons.shopping_cart, color: Colors.white,),
+                  )
+                ],
+              ),
+              SizedBox(height: 40.0,),
+              Text(
+                "Delicious Food",
+                style: AppWidget.headlineTextFieldStyle(),
+              ),
+              Text(
+                "Discover and Get Great Food",
+                style: AppWidget.lightTextFieldStyle(),
+              ),
+              SizedBox(height: 20.0,),
+              Container(
+                margin: EdgeInsets.only(right: 20),
+                  child: showItem()),
+              SizedBox(height: 20.0,),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Details()));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(4.0),
+                        child: Material(
+                          elevation: 5.0,
+                          borderRadius: BorderRadius.circular(20.0),
+                          child: Container(
+                            padding: EdgeInsets.all(14.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Image.asset("images/salad2.png",height: 150,width: 150,fit: BoxFit.cover,),
+                                Text("Veggie Taco", style: AppWidget.semiBoldTextFieldStyle(),),
+                                SizedBox(height: 5.0,),
+                                Text("Fresh and Healthy", style: AppWidget.lightTextFieldStyle(),),
+                                SizedBox(height: 5.0,),
+                                Text("\$25", style: AppWidget.semiBoldTextFieldStyle(), )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 15,),
+                    Container(
                       margin: EdgeInsets.all(4.0),
                       child: Material(
                         elevation: 5.0,
@@ -68,80 +92,94 @@ class _HomeState extends State<Home> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Image.asset("images/salad2.png",height: 150,width: 150,fit: BoxFit.cover,),
-                              Text("Veggie Taco", style: AppWidget.semiBoldTextFieldStyle(),),
+                              Image.asset("images/salad3.png",height: 150,width: 150,fit: BoxFit.cover,),
+                              Text("Mixed Veg Salad", style: AppWidget.semiBoldTextFieldStyle(),),
                               SizedBox(height: 5.0,),
-                              Text("Fresh and Healthy", style: AppWidget.lightTextFieldStyle(),),
+                              Text("Spicy with onion", style: AppWidget.lightTextFieldStyle(),),
                               SizedBox(height: 5.0,),
-                              Text("\$25", style: AppWidget.semiBoldTextFieldStyle(), )
+                              Text("\$30", style: AppWidget.semiBoldTextFieldStyle(), )
                             ],
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                  SizedBox(width: 15,),
-                  Container(
-                    margin: EdgeInsets.all(4.0),
-                    child: Material(
-                      elevation: 5.0,
-                      borderRadius: BorderRadius.circular(20.0),
-                      child: Container(
-                        padding: EdgeInsets.all(14.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Image.asset("images/salad3.png",height: 150,width: 150,fit: BoxFit.cover,),
-                            Text("Mixed Veg Salad", style: AppWidget.semiBoldTextFieldStyle(),),
-                            SizedBox(height: 5.0,),
-                            Text("Spicy with onion", style: AppWidget.lightTextFieldStyle(),),
-                            SizedBox(height: 5.0,),
-                            Text("\$30", style: AppWidget.semiBoldTextFieldStyle(), )
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 30.0,),
-            Container(
-              margin: EdgeInsets.only(right: 20.0),
-              child: Material(
-                elevation: 5.0,
-                borderRadius: BorderRadius.circular(20),
-                child: Container(
-                  padding: EdgeInsets.all(5),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Image.asset("images/salad2.png",height: 120,width: 120,),
-                      SizedBox(width: 20,),
-                      Column(
-                        children: [
-                          Container(
-                            child: Text("Indian Chickpea Salad", style: AppWidget.semiBoldTextFieldStyle(),),
-                            width: MediaQuery.of(context).size.width/2
-                          ),
-                          SizedBox(height: 5.0),
-                          Container(
-                              child: Text("Honey goot Cheese", style: AppWidget.lightTextFieldStyle(),),
+              SizedBox(height: 30.0,),
+              Container(
+                margin: EdgeInsets.only(right: 20.0,bottom: 5.0, left: 2.0),
+                child: Material(
+                  elevation: 5.0,
+                  borderRadius: BorderRadius.circular(20),
+                  child: Container(
+                    padding: EdgeInsets.all(5),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Image.asset("images/salad2.png",height: 120,width: 120,),
+                        SizedBox(width: 20,),
+                        Column(
+                          children: [
+                            Container(
+                              child: Text("Indian Chickpea Salad", style: AppWidget.semiBoldTextFieldStyle(),),
                               width: MediaQuery.of(context).size.width/2
-                          ),
-                          SizedBox(height: 5.0),
-                          Container(
-                              child: Text("\$24", style: AppWidget.semiBoldTextFieldStyle(),),
-                              width: MediaQuery.of(context).size.width/2
-                          ),
-                        ],
-                      )
-                    ],
+                            ),
+                            SizedBox(height: 5.0),
+                            Container(
+                                child: Text("Honey goot Cheese", style: AppWidget.lightTextFieldStyle(),),
+                                width: MediaQuery.of(context).size.width/2
+                            ),
+                            SizedBox(height: 5.0),
+                            Container(
+                                child: Text("\$24", style: AppWidget.semiBoldTextFieldStyle(),),
+                                width: MediaQuery.of(context).size.width/2
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
-            )
-          ],
+              SizedBox(height: 10.0,),
+              Container(
+                margin: EdgeInsets.only(right: 20.0, bottom: 5.0, left: 2.0),
+                child: Material(
+                  elevation: 5.0,
+                  borderRadius: BorderRadius.circular(20),
+                  child: Container(
+                    padding: EdgeInsets.all(5),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Image.asset("images/salad2.png",height: 120,width: 120,),
+                        SizedBox(width: 20,),
+                        Column(
+                          children: [
+                            Container(
+                                child: Text("Indian Chickpea Salad", style: AppWidget.semiBoldTextFieldStyle(),),
+                                width: MediaQuery.of(context).size.width/2
+                            ),
+                            SizedBox(height: 5.0),
+                            Container(
+                                child: Text("Honey goot Cheese", style: AppWidget.lightTextFieldStyle(),),
+                                width: MediaQuery.of(context).size.width/2
+                            ),
+                            SizedBox(height: 5.0),
+                            Container(
+                                child: Text("\$24", style: AppWidget.semiBoldTextFieldStyle(),),
+                                width: MediaQuery.of(context).size.width/2
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
