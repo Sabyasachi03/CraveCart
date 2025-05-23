@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/pages/bottom_nav.dart';
+import 'package:food_delivery/service/database.dart';
+import 'package:food_delivery/service/shared_pref.dart';
+import 'package:random_string/random_string.dart';
 
 import '../widget/widget_support.dart';
 import 'login.dart';
@@ -35,6 +38,20 @@ class _SignupState extends State<Signup> {
             ),
           )),
         );
+
+        String Id = randomAlphaNumeric(10);
+        Map<String,dynamic> addUserInfo={
+          "Name": namecontroller.text,
+          "Email": emailcontroller.text,
+          "Wallet": "0",
+          "Id": Id
+        };
+        await DatabaseMethod().addUserDetails(addUserInfo, Id);
+        await SharedPreferenceHelper().saveUserName(namecontroller.text);
+        await SharedPreferenceHelper().saveUserId(Id);
+        await SharedPreferenceHelper().saveUserEmail(emailcontroller.text);
+        await SharedPreferenceHelper().saveUserWallet('0');
+
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BottomNav()));
       } on FirebaseException catch (e) {
         if (e.code == 'weak-password') {
