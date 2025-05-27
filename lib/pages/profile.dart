@@ -1,4 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:food_delivery/service/auth.dart';
+import 'package:food_delivery/service/shared_pref.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:random_string/random_string.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -8,10 +14,37 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+
+  String? profile, name, email;
+
+
+
+  getthesharedpref() async{
+    profile = await SharedPreferenceHelper().getUserProfile();
+    name = await SharedPreferenceHelper().getUserName();
+    email = await SharedPreferenceHelper().getUserEmail();
+    setState(() {
+
+    });
+  }
+
+  onthisload() async{
+    await getthesharedpref();
+    setState(() {
+
+    });
+  }
+
+  @override
+  void initState() {
+    onthisload();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: name==null? CircularProgressIndicator() : Container(
         child: Column(
           children: [
             Stack(
@@ -84,7 +117,7 @@ class _ProfileState extends State<Profile> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Name", style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),),
-                          Text("Sabyasachi Samanta", style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),),
+                          Text(name!, style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),),
                         ],
                       )
                     ],
@@ -112,7 +145,7 @@ class _ProfileState extends State<Profile> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("Email", style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),),
-                            Text("s1@gmail.com", style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),),
+                            Text(email!, style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),),
                           ],
                         )
                       ],
@@ -148,58 +181,68 @@ class _ProfileState extends State<Profile> {
                 )
             ),
             SizedBox(height: 30,),
-            Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                child: Material(
-                  borderRadius: BorderRadius.circular(10),
-                  elevation: 2,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 15,horizontal: 10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
+            GestureDetector(
+              onTap: (){
+                AuthMethods().deleteuser();
+              },
+              child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  child: Material(
+                    borderRadius: BorderRadius.circular(10),
+                    elevation: 2,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 15,horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(Icons.delete, color: Colors.black,),
+                          SizedBox(width: 20,),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Delete Account", style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.delete, color: Colors.black,),
-                        SizedBox(width: 20,),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Delete Account", style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                )
+                  )
+              ),
             ),
             SizedBox(height: 30,),
-            Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                child: Material(
-                  borderRadius: BorderRadius.circular(10),
-                  elevation: 2,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 15,horizontal: 10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
+            GestureDetector(
+              onTap: (){
+                AuthMethods().SignOut();
+              },
+              child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  child: Material(
+                    borderRadius: BorderRadius.circular(10),
+                    elevation: 2,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 15,horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(Icons.logout, color: Colors.black,),
+                          SizedBox(width: 20,),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Log Out", style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.logout, color: Colors.black,),
-                        SizedBox(width: 20,),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Log Out", style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                )
+                  )
+              ),
             )
           ],
         ),
