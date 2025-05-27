@@ -1,15 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/service/database.dart';
+import 'package:food_delivery/service/shared_pref.dart';
 import 'package:food_delivery/widget/widget_support.dart';
 
 class Details extends StatefulWidget {
-  const Details({super.key});
+  String name, detail, price;
+  Details({required this.name, required this.detail, required this.price});
 
   @override
   State<Details> createState() => _DetailsState();
 }
 
 class _DetailsState extends State<Details> {
-  int a = 1;
+  int a = 1, total = 0;
+  String? id;
+
+  getthesharedpref()async{
+    id = await SharedPreferenceHelper().getUserId();
+    setState(() {
+
+    });
+  }
+  ontheload()async{
+    await getthesharedpref();
+    setState(() {
+
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    ontheload();
+    total = int.parse(widget.price);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,8 +60,7 @@ class _DetailsState extends State<Details> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Indian", style: AppWidget.semiBoldTextFieldStyle(),),
-                    Text("Chichpea Salad", style: AppWidget.headlineTextFieldStyle(),),
+                    Text(widget.name, style: AppWidget.headlineTextFieldStyle(),),
                   ],
                 ),
                 Spacer(),
@@ -45,6 +68,7 @@ class _DetailsState extends State<Details> {
                   onTap: (){
                     if(a>1){
                       --a;
+                      total = total - int.parse(widget.price);
                     }
                     setState(() {
 
@@ -61,6 +85,7 @@ class _DetailsState extends State<Details> {
                 GestureDetector(
                   onTap:(){
                     ++a;
+                    total = total + int.parse(widget.price);
                     setState(() {
 
                     });
@@ -73,7 +98,7 @@ class _DetailsState extends State<Details> {
               ],
             ),
             SizedBox(height: 20.0,),
-            Text("Lorem Ipsome... nionsdids iondindsioc ionvondviosdn ioauisdo aodnn diondsd iadios ihduv  nundson sods huo", style: AppWidget.lightTextFieldStyle(), maxLines: 2,),
+            Text(widget.detail, style: AppWidget.lightTextFieldStyle(), maxLines: 2,),
             SizedBox(height: 20.0,),
             Row(
               children: [
@@ -94,25 +119,44 @@ class _DetailsState extends State<Details> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Total Price", style: AppWidget.semiBoldTextFieldStyle(),),
-                      Text("\$24", style: AppWidget.headlineTextFieldStyle(),)
+                      Text("\$"+total.toString(), style: AppWidget.headlineTextFieldStyle(),)
                     ],
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width/2,
-                    padding: EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text("Add to cart", style: TextStyle(color: Colors.white, fontSize: 16.0, fontFamily: 'Poppins'),),
-                        SizedBox(width: 30.0,),
-                        Container(
-                          decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(8)),
-                          padding: EdgeInsets.all(3),
-                          child: Icon(Icons.shopping_cart_outlined, color: Colors.white,),
-                        ),
-                        SizedBox(width: 10.0,)
-                      ],
+                  GestureDetector(
+                    onTap: ()async{
+                      Map<String,dynamic> addFoodtoCart={
+                        "Name": widget.name,
+                        "Quantity": a.toString(),
+                        "Total": total.toString()
+                      };
+                      await DatabaseMethod().addFoodToCart(addFoodtoCart, id!);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        (SnackBar(
+                          backgroundColor: Colors.orangeAccent,
+                          content: Text(
+                            "Food added to cart",
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                        )),
+                      );
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width/2,
+                      padding: EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text("Add to cart", style: TextStyle(color: Colors.white, fontSize: 16.0, fontFamily: 'Poppins'),),
+                          SizedBox(width: 30.0,),
+                          Container(
+                            decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(8)),
+                            padding: EdgeInsets.all(3),
+                            child: Icon(Icons.shopping_cart_outlined, color: Colors.white,),
+                          ),
+                          SizedBox(width: 10.0,)
+                        ],
+                      ),
                     ),
                   )
                 ],
