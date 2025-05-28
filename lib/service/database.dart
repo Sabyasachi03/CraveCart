@@ -46,5 +46,9 @@ class DatabaseMethod {
 
     await batch.commit();
   }
-
+  Stream getAllFoodItems() {
+    return FirebaseFirestore.instance
+        .collection("FoodItems")
+        .snapshots();
+  }
 }
