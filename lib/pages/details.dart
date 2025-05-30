@@ -4,8 +4,8 @@ import 'package:food_delivery/service/shared_pref.dart';
 import 'package:food_delivery/widget/widget_support.dart';
 
 class Details extends StatefulWidget {
-  String name, detail, price;
-  Details({required this.name, required this.detail, required this.price});
+  String name, detail, price, image;
+  Details({required this.name, required this.detail, required this.price, required this.image});
 
   @override
   State<Details> createState() => _DetailsState();
@@ -49,7 +49,7 @@ class _DetailsState extends State<Details> {
               child: Icon(Icons.arrow_back_outlined, color: Colors.black),
             ),
             Image.asset(
-              "images/salad2.png",
+              widget.image,
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height / 2.3  ,
               fit: BoxFit.fill,

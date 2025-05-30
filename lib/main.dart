@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:food_delivery/admin/add_food.dart';
 import 'package:food_delivery/admin/admin_login.dart';
 import 'package:food_delivery/admin/home_admin.dart';
 import 'package:food_delivery/pages/bottom_nav.dart';
