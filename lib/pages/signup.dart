@@ -117,11 +117,42 @@ class _SignupState extends State<Signup> {
                 child: Column(
                   children: [
                     Center(
-                      child: Image.asset(
-                        "images/logo.png",
-                        width: MediaQuery.of(context).size.width / 1.5,
-                        fit: BoxFit.cover,
-                      ),
+                      child: Stack(
+                        children: [
+                          // 3D shadow layers
+                          Transform.translate(
+                            offset: Offset(3, 3),
+                            child: Text(
+                              "Food Delivery",
+                              style: TextStyle(
+                                fontSize: 48,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black.withOpacity(0.2),
+                              ),
+                            ),
+                          ),
+                          Transform.translate(
+                            offset: Offset(2, 2),
+                            child: Text(
+                              "Food Delivery",
+                              style: TextStyle(
+                                fontSize: 48,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black.withOpacity(0.1),
+                              ),
+                            ),
+                          ),
+                          // Main text
+                          Text(
+                            "Food Delivery",
+                            style: TextStyle(
+                              fontSize: 48,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      )
                     ),
                     SizedBox(height: 50.0),
                     Material(
