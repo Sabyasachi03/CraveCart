@@ -95,7 +95,7 @@ class _LoginState extends State<Login> {
                           Transform.translate(
                             offset: Offset(3, 3),
                             child: Text(
-                              "Food Delivery",
+                              "CraveCart",
                               style: TextStyle(
                                 fontSize: 48,
                                 fontWeight: FontWeight.bold,
@@ -106,7 +106,7 @@ class _LoginState extends State<Login> {
                           Transform.translate(
                             offset: Offset(2, 2),
                             child: Text(
-                              "Food Delivery",
+                              "CraveCart",
                               style: TextStyle(
                                 fontSize: 48,
                                 fontWeight: FontWeight.bold,
@@ -116,7 +116,7 @@ class _LoginState extends State<Login> {
                           ),
                           // Main text
                           Text(
-                            "Food Delivery",
+                            "CraveCart",
                             style: TextStyle(
                               fontSize: 48,
                               fontWeight: FontWeight.bold,

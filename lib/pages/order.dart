@@ -15,11 +15,10 @@ class Order extends StatefulWidget {
 
 class _OrderState extends State<Order> {
   String? id;
-  String wallet = "0"; // Initialize with default value
+  String wallet = "0";
   Stream? foodStream;
   int total = 0;
 
-  // Get user data from shared preferences
   Future<void> getSharedPref() async {
     id = await SharedPreferenceHelper().getUserId();
     final walletValue = await SharedPreferenceHelper().getUserWallet() ?? "0";
@@ -28,7 +27,6 @@ class _OrderState extends State<Order> {
     });
   }
 
-  // Load data on initialization
   Future<void> onTheLoad() async {
     await getSharedPref();
     if (id != null) {
@@ -42,7 +40,11 @@ class _OrderState extends State<Order> {
     super.initState();
   }
 
-  // Build food cart items
+  // Add this function to delete cart items
+  Future<void> deleteCartItem(String userId, String docId) async {
+    await DatabaseMethod().deleteCartItem(userId, docId);
+  }
+
   Widget foodCart() {
     return StreamBuilder(
       stream: foodStream,
@@ -55,13 +57,11 @@ class _OrderState extends State<Order> {
           return const Center(child: Text("Your cart is empty"));
         }
 
-        // Calculate total ONLY ONCE per data change
         int calculatedTotal = 0;
         for (var doc in snapshot.data!.docs) {
           calculatedTotal += int.parse(doc["Total"]);
         }
 
-        // Update total only if it's changed
         if (calculatedTotal != total) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             setState(() {
@@ -101,12 +101,19 @@ class _OrderState extends State<Order> {
                       const SizedBox(width: 20),
                       const Icon(Icons.fastfood_rounded, size: 70),
                       const SizedBox(width: 20),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(ds["Name"], style: AppWidget.semiBoldTextFieldStyle()),
-                          Text("\$${ds["Total"]}", style: AppWidget.semiBoldTextFieldStyle())
-                        ],
+                      Expanded(  // Added Expanded for flexible space
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(ds["Name"], style: AppWidget.semiBoldTextFieldStyle()),
+                            Text("\$${ds["Total"]}", style: AppWidget.semiBoldTextFieldStyle())
+                          ],
+                        ),
+                      ),
+                      // Add delete button here
+                      IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed: () => deleteCartItem(id!, ds.id),
                       ),
                     ],
                   ),
@@ -119,7 +126,6 @@ class _OrderState extends State<Order> {
     );
   }
 
-  // Handle checkout process
   Future<void> checkout() async {
     if (int.parse(wallet) < total) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -131,12 +137,12 @@ class _OrderState extends State<Order> {
     final newBalance = (int.parse(wallet) - total).toString();
 
     await DatabaseMethod().UpdateUserWallet(id!, newBalance);
-    await DatabaseMethod().clearCart(id!); // Clear cart after purchase
+    await DatabaseMethod().clearCart(id!);
     await SharedPreferenceHelper().saveUserWallet(newBalance);
 
     setState(() {
       wallet = newBalance;
-      total = 0; // Reset cart total
+      total = 0;
     });
 
     ScaffoldMessenger.of(context).showSnackBar(

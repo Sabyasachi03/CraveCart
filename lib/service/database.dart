@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:food_delivery/pages/wallet.dart';
 
 class DatabaseMethod {
   Future addUserDetails(Map<String, dynamic> userInfoMap, String id) async {
@@ -26,16 +25,24 @@ class DatabaseMethod {
   Future addFoodToCart(Map<String, dynamic> userInfoMap, String id) async {
     await FirebaseFirestore.instance
         .collection('user')
-        .doc(id).collection("cart")
+        .doc(id)
+        .collection("cart")
         .add(userInfoMap);
   }
+
   Future<Stream<QuerySnapshot>> getFoodCart(String id) async {
-    return FirebaseFirestore.instance.collection("user").doc(id).collection("cart").snapshots();
+    return FirebaseFirestore.instance
+        .collection("user")
+        .doc(id)
+        .collection("cart")
+        .snapshots();
   }
+
   Future<void> clearCart(String userId) async {
     final cartRef = FirebaseFirestore.instance
-        .collection('cart')
-        .where('UserId', isEqualTo: userId);
+        .collection('user')
+        .doc(userId)
+        .collection('cart');
 
     final snapshot = await cartRef.get();
     final batch = FirebaseFirestore.instance.batch();
@@ -46,6 +53,17 @@ class DatabaseMethod {
 
     await batch.commit();
   }
+
+  // CORRECTED deleteCartItem method
+  Future<void> deleteCartItem(String userId, String docId) async {
+    await FirebaseFirestore.instance
+        .collection("user")
+        .doc(userId)
+        .collection("cart")
+        .doc(docId)
+        .delete();
+  }
+
   Stream getAllFoodItems() {
     return FirebaseFirestore.instance
         .collection("FoodItems")
